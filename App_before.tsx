@@ -27,6 +27,10 @@ import SelectDropdown from 'react-native-select-dropdown';
 import { WatchVideo } from './components/video_watch';
 
 
+
+
+
+
 function App(): React.JSX.Element {
   const Tab = createBottomTabNavigator();
 
@@ -34,18 +38,15 @@ function App(): React.JSX.Element {
   const [category,setCategory]=React.useState("science");
   const [data,setData]=React.useState(null);
   const [newsClick,setNewsClick]=React.useState(false);
-  const [newsUrl,setNewsUrl]=React.useState("");
   const countries = ["India","USA","Australia","Russia","France","United Kingdom"];
   const languages=["English","Korean","French","Japanese","Chinese"];
    
   
-   let baseUrl="https://newsapi.org/v2/top-headlines?country="+country+"&category="+category+"&apiKey=887a9a5676f84e5987ff158c932d90eb";
- //let baseUrl="https://newsdata.io/api/1/news?apikey=pub_398597730d74d20392b106ad0dd36c1322456&category="+category;
- 
+  //let baseUrl="https://newsapi.org/v2/top-headlines?country="+country+"&category="+category+"&apiKey=887a9a5676f84e5987ff158c932d90eb";
+ let baseUrl="https://newsdata.io/api/1/news?apikey=pub_398597730d74d20392b106ad0dd36c1322456&category="+category;
   const handleNewsClick=()=>{
-    setNewsClick(true);
+    setNewsClick(true)
     console.log("news clicked");
-    console.log(newsUrl);
   }
 
   
@@ -67,22 +68,10 @@ function App(): React.JSX.Element {
 
     if (data !==null){
      return  data.articles.map((item, index) => {
-        setNewsUrl(item.url);
       return <NewsList key={index} title={item.title}/>
     
    });
   }
- }
- const getNewsListb=()=>{
-    if (data !==null){
-     return  data.results.map((item, index) => {
-      setNewsUrl(item.link);
-      return <NewsList key={index} title={item.title}/>
-
-    
-   });
-  }
-
  }
 
  const setNewsCategory=(category)=>{
@@ -112,22 +101,22 @@ function App(): React.JSX.Element {
       <Pressable style={styles.button} onPress={()=>{setNewsCategory("health")}}>
        <Text style={styles.buttonText}>Health</Text> 
       </Pressable>
-      <Pressable style={styles.button} onPress={()=>{setNewsCategory("technology")}}>
-       <Text style={styles.buttonText}>Technology</Text> 
+      <Pressable style={styles.button} onPress={()=>{setNewsCategory("sports")}}>
+       <Text style={styles.buttonText}>Sports</Text> 
       </Pressable>
 
     </View> 
    
-    {!newsClick?
+    {/* {!newsClick?
     <ScrollView style={styles.newsScrollView}>
       {
       getNewsList()
-      //getNewsListb()
       }
     
     </ScrollView>:
     <MyWebComponent/>  
-     }
+
+  } */}
     
       </>
     );
@@ -136,41 +125,30 @@ function App(): React.JSX.Element {
   function WatchScreen() {
 
     return (
-       <WatchVideo/>
-
+      
+        <WatchVideo />
+        
+      
     );
   }
   function SettingsScreen() {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <SelectDropdown
-            data={countries}
-            onSelect={(selectedItem, index) => {
-              console.log(selectedItem, index)
-            }}
-            buttonTextAfterSelection={(selectedItem, index) => {
-
-              return selectedItem
-            }}
-            rowTextForSelection={(item, index) => {
-       
-              return item
-            }}
-          />
-          <SelectDropdown
-            data={languages}
-            onSelect={(selectedItem, index) => {
-              console.log(selectedItem, index)
-            }}
-            buttonTextAfterSelection={(selectedItem, index) => {
-          
-              return selectedItem
-            }}
-            rowTextForSelection={(item, index) => {
-          
-              return item
-            }}
-          />  
+	data={countries}
+	onSelect={(selectedItem, index) => {
+		console.log(selectedItem, index)
+	}}
+	buttonTextAfterSelection={(selectedItem, index) => {
+		// text represented after item is selected
+		// if data array is an array of objects then return selectedItem.property to render after item is selected
+		return selectedItem
+	}}
+	rowTextForSelection={(item, index) => {
+		// text represented for each item in dropdown
+		// if data array is an array of objects then return item.property to represent item in dropdown
+		return item
+	}}/>
       </View>
     );
   }
@@ -178,7 +156,7 @@ function App(): React.JSX.Element {
     return (
       <View style={{flex:1,marginTop:10}}>
        <WebView
-       source={{uri:newsUrl}}
+       source={{uri:"https://reactnative.dev/docs/environment-setup"}}
        ></WebView> 
       </View>
       );
@@ -284,7 +262,7 @@ button:{
   backgroundColor:"#0E86D4",
   borderRadius:2,
   height:30,
-  width:75,
+  width:60,
   justifyContent:"center",
   marginTop:10
 },
